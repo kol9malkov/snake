@@ -4,19 +4,23 @@ from pygame.math import Vector2
 class Fruit():
     def __init__(self):
         # позиции x и y
-        self.x = random.randint(0, CELL_NUMBER - 1)
-        self.y = random.randint(0, CELL_NUMBER - 1)
-        self.pos = Vector2(self.x, self.y)
+        self.randomize()
     
     def draw_fruit(self):
         # создать прямоугольник и нарисовать его
         fruit_rect = pygame.Rect(int(self.pos.x * CELL_SIZE), int(self.pos.y * CELL_SIZE), CELL_SIZE, CELL_SIZE)
         pygame.draw.rect(screen, RED, fruit_rect)
 
+    def randomize(self):
+        self.x = random.randint(0, CELL_NUMBER - 1)
+        self.y = random.randint(0, CELL_NUMBER - 1)
+        self.pos = Vector2(self.x, self.y)
+
 class Snake():
     def __init__(self):
         self.body = [Vector2(5, 10), Vector2(6, 10), Vector2(7, 10)]
         self.direction = Vector2(1, 0)
+        self.new_block = False
     
     def draw_snake(self):
         for block in self.body:
@@ -27,9 +31,19 @@ class Snake():
             pygame.draw.rect(screen, BLUE, snake_rect)
     
     def move_snake(self):
-        body_copy = self.body[:-1]
-        body_copy.insert(0, body_copy[0] + self.direction)
-        self.body = body_copy[:]
+        if self.new_block == True:
+            body_copy = self.body[:]
+            body_copy.insert(0, body_copy[0] + self.direction)
+            self.body = body_copy[:]
+            self.new_block = False
+        else:
+            body_copy = self.body[:-1]
+            body_copy.insert(0, body_copy[0] + self.direction)
+            self.body = body_copy[:]
+
+
+    def add_block(self):
+        self.new_block = True
 
 class Main():
     def __init__(self):
@@ -38,10 +52,19 @@ class Main():
 
     def update(self):
         self.snake.move_snake()
+        self.check_collision()
 
     def draw(self):
         self.fruit.draw_fruit()
         self.snake.draw_snake()
+
+    def check_collision(self):
+        if self.fruit.pos == self.snake.body[0]:
+            self.fruit.randomize()
+            self.snake.add_block()
+
+    def add_block(self):
+        self.snake.add_block()
 
 """ Палитра цветов """
 JUNE_BUD = (175, 215, 70)
