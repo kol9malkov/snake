@@ -31,6 +31,18 @@ class Snake():
         body_copy.insert(0, body_copy[0] + self.direction)
         self.body = body_copy[:]
 
+class Main():
+    def __init__(self):
+        self.snake = Snake()
+        self.fruit = Fruit()
+
+    def update(self):
+        self.snake.move_snake()
+
+    def draw(self):
+        self.fruit.draw_fruit()
+        self.snake.draw_snake()
+
 """ Палитра цветов """
 JUNE_BUD = (175, 215, 70)
 RED = (255, 0, 0)
@@ -42,8 +54,7 @@ CELL_NUMBER = 20 # количество ячеек
 screen = pygame.display.set_mode((CELL_NUMBER * CELL_SIZE, CELL_NUMBER * CELL_SIZE))
 clock = pygame.time.Clock()
 """ Создание объектов """
-fruit = Fruit()
-snake = Snake()
+main_game = Main()
 """ Таймер срабатывания движения """
 SCREEN_UPDATE = pygame.USEREVENT
 pygame.time.set_timer(SCREEN_UPDATE, 150)
@@ -54,19 +65,18 @@ while True:
             pygame.quit()
             sys.exit()
         if event.type == SCREEN_UPDATE:
-            snake.move_snake()
+            main_game.update()
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_UP:
-                snake.direction = Vector2(0, -1)
+                main_game.snake.direction = Vector2(0, -1)
             if event.key == pygame.K_DOWN:
-                snake.direction = Vector2(0, 1)
+                main_game.snake.direction = Vector2(0, 1)
             if event.key == pygame.K_LEFT:
-                snake.direction = Vector2(-1, 0)
+                main_game.snake.direction = Vector2(-1, 0)
             if event.key == pygame.K_RIGHT:
-                snake.direction = Vector2(1, 0)
+                main_game.snake.direction = Vector2(1, 0)
 
     screen.fill(JUNE_BUD)
-    fruit.draw_fruit()
-    snake.draw_snake()
+    main_game.draw()
     pygame.display.update()
     clock.tick(60)
