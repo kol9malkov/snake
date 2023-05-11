@@ -9,13 +9,13 @@ class Fruit():
     def draw_fruit(self):
         # создать прямоугольник и нарисовать его
         fruit_rect = pygame.Rect(int(self.pos.x * CELL_SIZE), int(self.pos.y * CELL_SIZE), CELL_SIZE, CELL_SIZE)
-        pygame.draw.rect(screen, PALE_GREEN, fruit_rect)
+        # pygame.draw.rect(screen, PALE_GREEN, fruit_rect)
+        screen.blit(apple, fruit_rect)
 
     def randomize(self):
         self.x = random.randint(0, CELL_NUMBER - 1)
         self.y = random.randint(0, CELL_NUMBER - 1)
         self.pos = Vector2(self.x, self.y)
-
 
 class Snake():
     def __init__(self):
@@ -91,6 +91,8 @@ CELL_SIZE = 40 # размер ячейки
 CELL_NUMBER = 20 # количество ячеек
 screen = pygame.display.set_mode((CELL_NUMBER * CELL_SIZE, CELL_NUMBER * CELL_SIZE))
 clock = pygame.time.Clock()
+""" загрузка файлов """
+apple = pygame.image.load("images/apple.png").convert_alpha()
 """ гланвый объект """
 main_game = Main()
 """ Таймер срабатывания движения """
