@@ -116,6 +116,7 @@ class Main():
         self.draw_grass()
         self.fruit.draw_fruit()
         self.snake.draw_snake()
+        self.draw_score()
 
     def check_collision(self):
         if self.fruit.pos == self.snake.body[0]:
@@ -152,20 +153,33 @@ class Main():
                         grass_rect = pygame.Rect(i * CELL_SIZE, j * CELL_SIZE, CELL_SIZE, CELL_SIZE)
                         pygame.draw.rect(screen, DARK_GREEN, grass_rect)
 
+    def draw_score(self):
+        score_text = str(len(self.snake.body) - 3)
+        score_surface = game_font.render(score_text,  True, OLIVE)
+        score_x = int(CELL_SIZE + 25)
+        score_y = int(CELL_SIZE - 10)
+        score_rect = score_surface.get_rect(center=(score_x, score_y))
+        apple_rect = apple.get_rect(midright=(score_rect.left - 5, score_rect.centery))
+
+        screen.blit(score_surface, score_rect)
+        screen.blit(apple, apple_rect)
+
 """ Палитра цветов """
 JUNE_BUD = (175, 215, 70)
 PALE_GREEN = (126, 166, 114)
 BLUE = (0, 0, 255)
 DARK_GREEN = (167, 209, 61)
+OLIVE = (56, 74, 12)
 """ Создания окна """
 pygame.init()
 CELL_SIZE = 40 # размер ячейки
 CELL_NUMBER = 20 # количество ячеек
 screen = pygame.display.set_mode((CELL_NUMBER * CELL_SIZE, CELL_NUMBER * CELL_SIZE))
 clock = pygame.time.Clock()
-""" загрузка файлов """
+""" загрузка файлов и создание объектов """
 apple = pygame.image.load("images/apple.png").convert_alpha()
-""" гланвый объект """
+game_font = pygame.font.Font('Font/PoetsenOne-Regular.ttf', 25)
+""" главyый объект """
 main_game = Main()
 """ Таймер срабатывания движения """
 SCREEN_UPDATE = pygame.USEREVENT
