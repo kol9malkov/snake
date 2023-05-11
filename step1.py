@@ -113,6 +113,7 @@ class Main():
         self.check_fail()
 
     def draw(self):
+        self.draw_grass()
         self.fruit.draw_fruit()
         self.snake.draw_snake()
 
@@ -138,10 +139,24 @@ class Main():
         pygame.quit()
         sys.exit()
 
+    def draw_grass(self):
+        for j in range(CELL_NUMBER):
+            if j % 2 == 0:
+                for i in range(CELL_NUMBER):
+                    if i % 2 == 0:
+                        grass_rect = pygame.Rect(i * CELL_SIZE, j * CELL_SIZE, CELL_SIZE, CELL_SIZE)
+                        pygame.draw.rect(screen, DARK_GREEN, grass_rect)
+            else:
+                for i in range(CELL_NUMBER):
+                    if i % 2 != 0:
+                        grass_rect = pygame.Rect(i * CELL_SIZE, j * CELL_SIZE, CELL_SIZE, CELL_SIZE)
+                        pygame.draw.rect(screen, DARK_GREEN, grass_rect)
+
 """ Палитра цветов """
 JUNE_BUD = (175, 215, 70)
 PALE_GREEN = (126, 166, 114)
 BLUE = (0, 0, 255)
+DARK_GREEN = (167, 209, 61)
 """ Создания окна """
 pygame.init()
 CELL_SIZE = 40 # размер ячейки
