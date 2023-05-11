@@ -1,11 +1,11 @@
-import pygame, sys
+import pygame, sys, random
 from pygame.math import Vector2
 
 class Fruit():
     def __init__(self):
         # позиции x и y
-        self.x = 5
-        self.y = 4
+        self.x = random.randint(0, CELL_NUMBER - 1)
+        self.y = random.randint(0, CELL_NUMBER - 1)
         self.pos = Vector2(self.x, self.y)
     
     # отрисовка квадрата
